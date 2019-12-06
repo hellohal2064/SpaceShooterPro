@@ -146,7 +146,7 @@ public class MainManager : MonoBehaviour
     }
     public void GameInfo()
     {
-
+        SceneManager.LoadScene(2);
     }
     public void Settings()
     {
