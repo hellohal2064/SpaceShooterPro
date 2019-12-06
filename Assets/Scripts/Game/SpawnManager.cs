@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -107,9 +108,17 @@ public class SpawnManager : MonoBehaviour
             if (_uiManager.GameOverCheck)
             {
                 _uiManager.GameIsOver();
-                while (!Input.GetKeyDown(KeyCode.R)) yield return null;
+                while (Input.GetKeyDown(KeyCode.R))
+                {
+                    _uiManager.GameStart();
+                    yield return null;
+                }
+                while (Input.GetKeyDown(KeyCode.M))
+                {
+                    SceneManager.LoadScene(0);
+                    yield return null;
+                }
                 //Debug.LogError("GamePlay L3: " + _uiManager.GameOverCheck + " -- " + GamePlayLoop);s
-                _uiManager.GameStart();
             }
             yield return new WaitUntil(() => _uiManager.GameOverCheck);
         }

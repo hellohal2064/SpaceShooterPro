@@ -1449,8 +1449,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -40}
-  m_SizeDelta: {x: 200, y: 18}
+  m_AnchoredPosition: {x: -0.0000076294, y: -53.8}
+  m_SizeDelta: {x: 379.09, y: 24.67}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1585045419
 MonoBehaviour:
@@ -1506,8 +1506,8 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 0
   m_fontSizeMax: 0
-  m_fontStyle: 0
-  m_textAlignment: 257
+  m_fontStyle: 34
+  m_textAlignment: 258
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -1973,21 +1973,18 @@ MonoBehaviour:
     displayTextCard: {fileID: 935106369}
     displayActive: 1
     displayName: 'Score:'
-    scoreIncrement: 5
     scoreOn: 1
     effect: PlainText
   - name: GameOver
     displayTextCard: {fileID: 1083006542}
     displayActive: 0
     displayName: Game Over
-    scoreIncrement: 0
     scoreOn: 0
     effect: Blink
   - name: NewGame
     displayTextCard: {fileID: 1585045419}
     displayActive: 0
-    displayName: R key For New Game
-    scoreIncrement: 0
+    displayName: R For New Game or M for Main Menu
     scoreOn: 0
     effect: PlainText
 --- !u!4 &2072077593

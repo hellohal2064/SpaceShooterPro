@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
     {
         new HDisplaySystem {name = "Score", displayName = "Score:", displayActive = true , scoreOn = true, effect = "PlainText"},
         new HDisplaySystem {name = "GameOver", displayName = "Game Over", displayActive = false, scoreOn = false, effect = "Blink"},
-        new HDisplaySystem {name = "NewGame", displayName = "R key For New Game", displayActive = false, scoreOn = false, effect = "PlainText"}
+        new HDisplaySystem {name = "NewGame", displayName = "R For New Game or M for Main Menu", displayActive = false, scoreOn = false, effect = "PlainText"}
     };
     //Not in Unity
     private bool _gameover;

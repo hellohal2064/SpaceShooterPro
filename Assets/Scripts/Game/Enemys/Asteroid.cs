@@ -94,6 +94,7 @@ public class Asteroid : MonoBehaviour
             _playerAudio.Play();
             _playedAudio = true;
         }
+        gameObject.GetComponent<PolygonCollider2D>().enabled = false;
         Destroy(this.gameObject, (_clipLenght));
     }
     private void OnTriggerEnter2D(Collider2D collision)
