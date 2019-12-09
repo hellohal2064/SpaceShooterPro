@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -59,8 +58,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private bool _EnemysOff = false;
     //Coroutines
-    private bool GamePlayLoop = true;
-    private IEnumerator coroutineGamePlay;
+
     private bool spawnEnemyLoop = true;
     private IEnumerator coroutineSpawnEnemy;
     private bool spawnAsteroidLoop = true;
@@ -77,9 +75,7 @@ public class SpawnManager : MonoBehaviour
     {
         _uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
         _uiManager.GameOverCheck = false;
-        // Create Game Play Loop
-        coroutineGamePlay = GamePlay();
-        StartCoroutine(coroutineGamePlay);
+       
         // Create Player
         coroutineSpawnPlayer = SpawnPlayer();
         StartCoroutine(coroutineSpawnPlayer);
@@ -93,36 +89,7 @@ public class SpawnManager : MonoBehaviour
         coroutineSpawnPowerUp = SpawnPowerUp(_gameContainers[2].container);
         StartCoroutine(coroutineSpawnPowerUp);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    IEnumerator GamePlay()
-    {
-        //Debug.LogError("GamePlay L1: " + _uiManager.GameOverCheck + " -- " + GamePlayLoop);
-        while (GamePlayLoop)
-        {
-           //Debug.LogError("GamePlay L2: " + _uiManager.GameOverCheck + " -- " + GamePlayLoop);
-            if (_uiManager.GameOverCheck)
-            {
-                _uiManager.GameIsOver();
-                while (Input.GetKeyDown(KeyCode.R))
-                {
-                    _uiManager.GameStart();
-                    yield return null;
-                }
-                while (Input.GetKeyDown(KeyCode.M))
-                {
-                    SceneManager.LoadScene(0);
-                    yield return null;
-                }
-                //Debug.LogError("GamePlay L3: " + _uiManager.GameOverCheck + " -- " + GamePlayLoop);s
-            }
-            yield return new WaitUntil(() => _uiManager.GameOverCheck);
-        }
-    }
+   
     IEnumerator SpawnPlayer()
     {
         while (spawnPlayerLoop)

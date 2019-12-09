@@ -82,14 +82,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _xRightBound = 11.1f;
     //Not in Unity
-    private bool __ThrusterON;
     private Vector3 _movePlayer;
     private Vector3 _pHold;
     private float _fZero = 0.0f;
     private float _speedHold;
     private UIManager _uiManager;
     private FireDamage[] _fireDamage;
-    private PlayerThruster _playerThruster;
 
     //PowerUp Var
     [SerializeField]
@@ -125,7 +123,6 @@ public class Player : MonoBehaviour
         GameObject holdLaserContainer = GameObject.Find("Player Container");
         SetContainer(_PlayerContainer, _LaserContainer);
         //Thrusters
-        _playerThruster = GetComponentInChildren<PlayerThruster>();
         _uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
         //LivesCard
         _LivesCard = GameObject.FindGameObjectWithTag("LivesCard").GetComponent<LivesCard>();
@@ -292,7 +289,7 @@ public class Player : MonoBehaviour
                 Debug.Log("TripleShot Laser Container broken");
             }
         }
-        else if (powerupList[0].powerupIsActive == false)
+        else if (!powerupList[0].powerupIsActive)
         {
             laserList[0].laserCooldown = Time.time + laserList[0].laserFirerate;
             GameObject newLaser = Instantiate(laserList[0].laserPrefab, transform.position + new Vector3(0, laserList[0].laserOffset, 0), Quaternion.identity);
@@ -381,14 +378,14 @@ public class Player : MonoBehaviour
                 ShieldControl(shieldactive: true, scaleshields: true);
                 break;
             case "Player":
-                _livesHold--;
-                _LivesCard.ActivateSprite(_livesHold);
-                if (_livesHold == 0)
-                {
-                    _livesHold = _playerInfo[0].playerLives;
-                    _uiManager.GameOverCheck = true;
-                    Destroy(this.gameObject);
-                }
+                    _livesHold--;
+                    _LivesCard.ActivateSprite(_livesHold);
+                    if (_livesHold == 0)
+                    {
+                        _livesHold = _playerInfo[0].playerLives;
+                        _uiManager.GameOverCheck = true;
+                        Destroy(this.gameObject);
+                    }
                 break;
             default:
                 break;
@@ -443,6 +440,17 @@ public class Player : MonoBehaviour
         set
         {
            _shieldLive = value;
+        }
+    }
+    public int LivesHold
+    {
+        get
+        {
+            return _livesHold;
+        }
+        set
+        {
+            _livesHold = value;
         }
     }
 }

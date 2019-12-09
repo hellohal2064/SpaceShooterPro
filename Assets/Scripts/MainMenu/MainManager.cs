@@ -152,4 +152,8 @@ public class MainManager : MonoBehaviour
     {
 
     }
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Runtime.InteropServices;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -29,16 +29,23 @@ public class UIManager : MonoBehaviour
     {
         new HDisplaySystem {name = "Score", displayName = "Score:", displayActive = true , scoreOn = true, effect = "PlainText"},
         new HDisplaySystem {name = "GameOver", displayName = "Game Over", displayActive = false, scoreOn = false, effect = "Blink"},
-        new HDisplaySystem {name = "NewGame", displayName = "R For New Game or M for Main Menu", displayActive = false, scoreOn = false, effect = "PlainText"}
+        new HDisplaySystem {name = "NewGame", displayName = "Game Coded by Sean Li hellohal2064@gmail.com", displayActive = false, scoreOn = false, effect = "PlainText"}
     };
+    [SerializeField]
+    private GameObject GamePanel = null;
+    [SerializeField]
+    private GameObject _continueButton = null;
     //Not in Unity
     private bool _gameover;
     private float _scoreLive;
     private IEnumerator coroutineHDDisplay;
     private TextMeshProUGUI textMeshProUGUI;
+
+    //Default Colors
     Color startColor = new Color32(188, 0, 0, 0);
     Color endColor = new Color32(188, 0, 0, 255);
     Color baseColor = new Color32(255,255,255,255);
+
 
     // Start is called before the first frame update
     void Start()
@@ -52,22 +59,17 @@ public class UIManager : MonoBehaviour
     }
     void EffectPlainText(string name, bool scoreon, TextMeshProUGUI displaytextcard, string displayname, float scoreLive)
     {
-        //Debug.LogError("EffectPlainText L1: " + name + " displayName=" + displayname + " Score=" + scoreLive + " scoreOn=" + scoreon + " gameover=" + _gameover);
         if (scoreon)
         {
-            //Debug.LogError("EffectPlainText L1: " + name + " displayName=" + displayname + " Score=" + scoreLive + " scoreOn=" + scoreon + " gameover=" + _gameover);
             displaytextcard.text = displayname + " " + scoreLive.ToString();
         }
         else if (!scoreon)
         {
-            //Debug.LogError("EffectPlainText L1: " + name + " displayName=" + displayname + " Score=" + scoreLive + " scoreOn=" + scoreon + " gameover=" + _gameover);
             displaytextcard.text = displayname;
         }
-        //Debug.LogError("EffectPlainText L1: " + name + " displayName=" + displayname + " Score=" + scoreLive + " scoreOn=" + scoreon + " gameover=" + _gameover);
     }
     void EffectBlink(string name, bool scoreon, TextMeshProUGUI displaytextcard, string displayname, float scoreLive)
     {
-        //Debug.LogError("L1: EffectBlink " + name + scoreon + displayname);
         displaytextcard.text = displayname;
         StartCoroutine(coroutineHDDisplay);
     }
@@ -79,7 +81,6 @@ public class UIManager : MonoBehaviour
     {
         for (int i = 0; i < hddisplaySystem.Count; i++)
         {
-            //Debug.LogError("L1: " + hdSystemName + " UpdateHDSystem: " + hddisplaySystem[i].name + " scoreLive=" + _scoreLive + " scoreOn=" + scoreOn + " displayActive=" + displayActive + " gameover=" + _gameover + " displayEffect=" + displayEffect);
             if (hddisplaySystem[i].name == hdSystemName)
             {
                 hddisplaySystem[i].effect = displayEffect;
@@ -87,15 +88,12 @@ public class UIManager : MonoBehaviour
                 hddisplaySystem[i].displayActive = displayActive;
                 if (displayActive)
                 {
-                    //Debug.LogError("L2: " + hdSystemName + " UpdateHDSystem: " + hddisplaySystem[i].name + " scoreLive=" + _scoreLive + " scoreOn=" + scoreOn + " displayActive=" + displayActive + " gameover=" + _gameover + " displayEffect=" + displayEffect);
                     switch (hddisplaySystem[i].effect)
                     {
                         case "PlainText":
                             EffectPlainText(name: hddisplaySystem[i].name, scoreon: hddisplaySystem[i].scoreOn, displaytextcard: hddisplaySystem[i].displayTextCard, displayname: hddisplaySystem[i].displayName, scoreLive: _scoreLive);
-                            //Debug.LogError("L3: " + hdSystemName + " UpdateHDSystem: " + hddisplaySystem[i].name + " scoreLive=" + _scoreLive + " scoreOn=" + scoreOn + " displayActive=" + displayActive + " gameover=" + _gameover + " displayEffect=" + displayEffect);
                             break;
                         case "Blink":
-                            //Debug.LogError("L4: " + hdSystemName + " UpdateHDSystem: " + hddisplaySystem[i].name + " scoreLive=" + _scoreLive + " scoreOn=" + scoreOn + " displayActive=" + displayActive + " gameover=" + _gameover + " displayEffect=" + displayEffect);
                             EffectBlink(name: hddisplaySystem[i].name, scoreon: hddisplaySystem[i].scoreOn, displaytextcard: hddisplaySystem[i].displayTextCard, displayname: hddisplaySystem[i].displayName, scoreLive: _scoreLive);
                             break;
                         default:
@@ -109,27 +107,40 @@ public class UIManager : MonoBehaviour
             }
         }
     }
-    IEnumerator BlinkEffect()
+    void ChangeTextHDSystem(List<HDisplaySystem> hddisplaySystem, string hdSystemName, string newText)
     {
-        //yield return new WaitForSeconds(0.2f);
+        for (int i = 0; i < hddisplaySystem.Count; i++)
+        {
+            if (hddisplaySystem[i].name == hdSystemName)
+            {
+                hddisplaySystem[i].displayName = newText;
+            }
+        }
+    }
+   IEnumerator BlinkEffect()
+    {
+        yield return new WaitForSeconds(0.2f);
         float t = 0;
 
         while (_gameover)
         {
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.9f);
             while (t < 1)
             {
                 _hDDisplaySystem[1].displayTextCard.color = Color.Lerp(startColor, endColor, t);
-                t += Time.deltaTime / 10f;
+                t += Time.deltaTime / 15f;
             }
-            yield return new WaitForSeconds(0.5f);
-            _hDDisplaySystem[1].displayTextCard.color = startColor;
+            yield return new WaitForSeconds(0.9f);
             t = 0;
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.9f);
+            _hDDisplaySystem[1].displayTextCard.color = startColor;
         }
     }
     public void GameIsOver()
     {
+        GamePanel.SetActive(true);
+        _continueButton.SetActive(false);
+        ChangeTextHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "GameOver", newText: "Game Over");
         UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "GameOver", scoreOn: false, displayActive: true, displayEffect: "Blink");
         UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "NewGame", scoreOn: false, displayActive: true, displayEffect: "PlainText");
     }
@@ -137,6 +148,7 @@ public class UIManager : MonoBehaviour
     {
         _scoreLive = 0;
         GameOverCheck = false;
+        GamePanel.SetActive(false);
         coroutineHDDisplay = BlinkEffect();
         UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "Score", scoreOn: true, displayActive: true, displayEffect: "PlainText");
         UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "NewGame", scoreOn: false, displayActive: false, displayEffect: "PlainText");
@@ -165,5 +177,30 @@ public class UIManager : MonoBehaviour
         {
             _gameover = value;
         }
+    }
+    public void GameRestart()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(1);
+    }
+    public void GamePause()
+    {
+        Time.timeScale = 0;
+        _continueButton.SetActive(true);
+        ChangeTextHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "GameOver", newText: "Game Paused");
+        UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "GameOver", scoreOn: false, displayActive: true, displayEffect: "Blink");
+        ChangeTextHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "NewGame", newText: "Game Coded by Sean Li hellohal2064@gmail.com");
+        UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "NewGame", scoreOn: false, displayActive: true, displayEffect: "PlainText");
+        GamePanel.SetActive(true);
+    }
+    public void GameContinue()
+    {
+        Time.timeScale = 1;
+        GamePanel.SetActive(false);
+    }
+    public void GameMainMenu()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(0);
     }
 }
