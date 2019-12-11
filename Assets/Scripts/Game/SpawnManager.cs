@@ -75,7 +75,7 @@ public class SpawnManager : MonoBehaviour
     {
         _uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
         _uiManager.GameOverCheck = false;
-       
+        //DontDestroyOnLoad(GameObject.Find("SystemManager"));
         // Create Player
         coroutineSpawnPlayer = SpawnPlayer();
         StartCoroutine(coroutineSpawnPlayer);

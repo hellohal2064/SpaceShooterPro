@@ -29,17 +29,19 @@ public class UIManager : MonoBehaviour
     {
         new HDisplaySystem {name = "Score", displayName = "Score:", displayActive = true , scoreOn = true, effect = "PlainText"},
         new HDisplaySystem {name = "GameOver", displayName = "Game Over", displayActive = false, scoreOn = false, effect = "Blink"},
+        new HDisplaySystem {name = "HighScore", displayName = "High Score:", displayActive = true , scoreOn = true, effect = "PlainText"},
         new HDisplaySystem {name = "NewGame", displayName = "Game Coded by Sean Li hellohal2064@gmail.com", displayActive = false, scoreOn = false, effect = "PlainText"}
     };
     [SerializeField]
-    private GameObject GamePanel = null;
+    private GameObject _GamePanel = null;
     [SerializeField]
     private GameObject _continueButton = null;
 
     //Not in Unity
+    private SystemManager hsControl;
     private bool _gameover;
     private float _scoreLive;
-    private IEnumerator coroutineHDDisplay;
+    private IEnumerator coroutineBlinkDisplay;
     private TextMeshProUGUI textMeshProUGUI;
 
     //Default Colors
@@ -56,7 +58,7 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+ 
     }
     void EffectPlainText(string name, bool scoreon, TextMeshProUGUI displaytextcard, string displayname, float scoreLive)
     {
@@ -69,16 +71,17 @@ public class UIManager : MonoBehaviour
             displaytextcard.text = displayname;
         }
     }
-    void EffectBlink(string name, bool scoreon, TextMeshProUGUI displaytextcard, string displayname, float scoreLive)
+    void EffectBlink(string name, bool scoreon, TextMeshProUGUI displaytextcard, string displayname)
     {
         displaytextcard.text = displayname;
-        StartCoroutine(coroutineHDDisplay);
+        coroutineBlinkDisplay = BlinkEffect(displaytextcard);
+        StartCoroutine(coroutineBlinkDisplay);
     }
     void ClearText(TextMeshProUGUI displaytextcard)
     {
         displaytextcard.text = "";
     }
-    void UpdateHDSystem(List<HDisplaySystem> hddisplaySystem, string hdSystemName, bool scoreOn, bool displayActive, string displayEffect)
+    void UpdateHDSystem(List<HDisplaySystem> hddisplaySystem, string hdSystemName, bool scoreOn, bool displayActive, string displayEffect, [Optional] float liveScore)
     {
         for (int i = 0; i < hddisplaySystem.Count; i++)
         {
@@ -92,10 +95,10 @@ public class UIManager : MonoBehaviour
                     switch (hddisplaySystem[i].effect)
                     {
                         case "PlainText":
-                            EffectPlainText(name: hddisplaySystem[i].name, scoreon: hddisplaySystem[i].scoreOn, displaytextcard: hddisplaySystem[i].displayTextCard, displayname: hddisplaySystem[i].displayName, scoreLive: _scoreLive);
+                            EffectPlainText(name: hddisplaySystem[i].name, scoreon: hddisplaySystem[i].scoreOn, displaytextcard: hddisplaySystem[i].displayTextCard, displayname: hddisplaySystem[i].displayName, scoreLive: liveScore);
                             break;
                         case "Blink":
-                            EffectBlink(name: hddisplaySystem[i].name, scoreon: hddisplaySystem[i].scoreOn, displaytextcard: hddisplaySystem[i].displayTextCard, displayname: hddisplaySystem[i].displayName, scoreLive: _scoreLive);
+                            EffectBlink(name: hddisplaySystem[i].name, scoreon: hddisplaySystem[i].scoreOn, displaytextcard: hddisplaySystem[i].displayTextCard, displayname: hddisplaySystem[i].displayName);
                             break;
                         default:
                             break;
@@ -118,30 +121,44 @@ public class UIManager : MonoBehaviour
             }
         }
     }
-   IEnumerator BlinkEffect()
+    float ReadHighScore()
+    {
+        hsControl = GameObject.Find("SystemManager").GetComponent<SystemManager>();
+        return hsControl.HighScoreIs;
+    }
+    void WriteHighScore(float hsScore) 
+    {
+        hsControl = GameObject.Find("SystemManager").GetComponent<SystemManager>();
+        hsControl.HighScoreIs = hsScore;
+    }
+
+    IEnumerator BlinkEffect(TextMeshProUGUI displaytextcard)
     {
         yield return new WaitForSeconds(0.2f);
         float t = 0;
 
         while (_gameover)
         {
-            yield return new WaitForSeconds(0.9f);
+            yield return new WaitForSeconds(0.2f);
             while (t < 1)
             {
-                _hDDisplaySystem[1].displayTextCard.color = Color.Lerp(startColor, endColor, t);
+                displaytextcard.color = Color.Lerp(startColor, endColor, t);
                 t += Time.deltaTime / 15f;
             }
-            yield return new WaitForSeconds(0.9f);
+            yield return new WaitForSeconds(0.2f);
             t = 0;
-            yield return new WaitForSeconds(0.9f);
-            _hDDisplaySystem[1].displayTextCard.color = startColor;
+            yield return new WaitForSeconds(0.2f);
+            displaytextcard.color = startColor;
         }
     }
     public void GameIsOver()
     {
-        GamePanel.SetActive(true);
+        WriteHighScore(_scoreLive);
+        _GamePanel.SetActive(true);
         _continueButton.SetActive(false);
         ChangeTextHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "GameOver", newText: "Game Over");
+        StopCoroutine("BlinkEffect");
+        UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "HighScore", scoreOn: true, displayActive: true, displayEffect: "PlainText", liveScore: ReadHighScore());
         UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "GameOver", scoreOn: false, displayActive: true, displayEffect: "Blink");
         UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "NewGame", scoreOn: false, displayActive: true, displayEffect: "PlainText");
     }
@@ -149,9 +166,9 @@ public class UIManager : MonoBehaviour
     {
         _scoreLive = 0;
         GameOverCheck = false;
-        GamePanel.SetActive(false);
-        coroutineHDDisplay = BlinkEffect();
-        UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "Score", scoreOn: true, displayActive: true, displayEffect: "PlainText");
+        _GamePanel.SetActive(false);
+        UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "HighScore", scoreOn: true, displayActive: true, displayEffect: "PlainText", liveScore: ReadHighScore());
+        UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "Score", scoreOn: true, displayActive: true, displayEffect: "PlainText", liveScore: _scoreLive);
         UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "NewGame", scoreOn: false, displayActive: false, displayEffect: "PlainText");
     }
     public void Score(string enemyType)
@@ -166,7 +183,36 @@ public class UIManager : MonoBehaviour
         {
             _scoreLive += 10f;
         }
-        UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "Score", scoreOn: true, displayActive: true, displayEffect: "PlainText");
+        UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "Score", scoreOn: true, displayActive: true, displayEffect: "PlainText", liveScore: _scoreLive);
+    }
+    public void GameRestart()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(1);
+    }
+    public void GamePause()
+    {
+        Debug.LogError("GamePause");
+        WriteHighScore(_scoreLive);
+        _continueButton.SetActive(true);
+        ChangeTextHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "GameOver", newText: "Game Paused");
+        StopCoroutine("BlinkEffect");
+        UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "GameOver", scoreOn: false, displayActive: true, displayEffect: "Blink");
+        ChangeTextHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "NewGame", newText: "Game Coded by Sean Li hellohal2064@gmail.com");
+        UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "NewGame", scoreOn: false, displayActive: true, displayEffect: "PlainText");
+        _GamePanel.SetActive(true);
+        Time.timeScale = 0;
+    }
+    public void GameContinue()
+    {
+        Time.timeScale = 1;
+        _GamePanel.SetActive(false);
+    }
+    public void GameMainMenu()
+    {
+        WriteHighScore(_scoreLive);
+        Time.timeScale = 1;
+        SceneManager.LoadScene(0);
     }
     public bool GameOverCheck
     {
@@ -178,30 +224,5 @@ public class UIManager : MonoBehaviour
         {
             _gameover = value;
         }
-    }
-    public void GameRestart()
-    {
-        Time.timeScale = 1;
-        SceneManager.LoadScene(1);
-    }
-    public void GamePause()
-    {
-        _continueButton.SetActive(true);
-        ChangeTextHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "GameOver", newText: "Game Paused");
-        UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "GameOver", scoreOn: false, displayActive: true, displayEffect: "Blink");
-        ChangeTextHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "NewGame", newText: "Game Coded by Sean Li hellohal2064@gmail.com");
-        UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "NewGame", scoreOn: false, displayActive: true, displayEffect: "PlainText");
-        GamePanel.SetActive(true);
-        Time.timeScale = 0;
-    }
-    public void GameContinue()
-    {
-        Time.timeScale = 1;
-        GamePanel.SetActive(false);
-    }
-    public void GameMainMenu()
-    {
-        Time.timeScale = 1;
-        SceneManager.LoadScene(0);
     }
 }
