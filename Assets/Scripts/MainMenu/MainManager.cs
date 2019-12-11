@@ -52,22 +52,17 @@ public class MainManager : MonoBehaviour
     }
     void EffectPlainText(string name, bool scoreon, TextMeshProUGUI displaytextcard, string displayname, float scoreLive)
     {
-        //Debug.LogError("EffectPlainText L1: " + name + " displayName=" + displayname + " Score=" + scoreLive + " scoreOn=" + scoreon + " gameover=" + _gameover);
         if (scoreon)
         {
-            //Debug.LogError("EffectPlainText L1: " + name + " displayName=" + displayname + " Score=" + scoreLive + " scoreOn=" + scoreon + " gameover=" + _gameover);
             displaytextcard.text = displayname + " " + scoreLive.ToString();
         }
         else if (!scoreon)
         {
-            //Debug.LogError("EffectPlainText L1: " + name + " displayName=" + displayname + " Score=" + scoreLive + " scoreOn=" + scoreon + " gameover=" + _gameover);
             displaytextcard.text = displayname;
         }
-        //Debug.LogError("EffectPlainText L1: " + name + " displayName=" + displayname + " Score=" + scoreLive + " scoreOn=" + scoreon + " gameover=" + _gameover);
     }
     void EffectBlink(string name, bool scoreon, TextMeshProUGUI displaytextcard, string displayname, float scoreLive)
     {
-        //Debug.LogError("L1: EffectBlink " + name + scoreon + displayname);
         displaytextcard.text = displayname;
         StartCoroutine(coroutineHDDisplay);
     }
@@ -79,7 +74,6 @@ public class MainManager : MonoBehaviour
     {
         for (int i = 0; i < hddisplaySystem.Count; i++)
         {
-            //Debug.LogError("L1: " + hdSystemName + " UpdateHDSystem: " + hddisplaySystem[i].name + " scoreLive=" + _scoreLive + " scoreOn=" + scoreOn + " displayActive=" + displayActive + " gameover=" + _gameover + " displayEffect=" + displayEffect);
             if (hddisplaySystem[i].name == hdSystemName)
             {
                 hddisplaySystem[i].effect = displayEffect;
@@ -87,15 +81,12 @@ public class MainManager : MonoBehaviour
                 hddisplaySystem[i].displayActive = displayActive;
                 if (displayActive)
                 {
-                    //Debug.LogError("L2: " + hdSystemName + " UpdateHDSystem: " + hddisplaySystem[i].name + " scoreLive=" + _scoreLive + " scoreOn=" + scoreOn + " displayActive=" + displayActive + " gameover=" + _gameover + " displayEffect=" + displayEffect);
                     switch (hddisplaySystem[i].effect)
                     {
                         case "PlainText":
                             EffectPlainText(name: hddisplaySystem[i].name, scoreon: hddisplaySystem[i].scoreOn, displaytextcard: hddisplaySystem[i].displayTextCard, displayname: hddisplaySystem[i].displayName, scoreLive: _scoreLive);
-                            //Debug.LogError("L3: " + hdSystemName + " UpdateHDSystem: " + hddisplaySystem[i].name + " scoreLive=" + _scoreLive + " scoreOn=" + scoreOn + " displayActive=" + displayActive + " gameover=" + _gameover + " displayEffect=" + displayEffect);
                             break;
                         case "Blink":
-                            //Debug.LogError("L4: " + hdSystemName + " UpdateHDSystem: " + hddisplaySystem[i].name + " scoreLive=" + _scoreLive + " scoreOn=" + scoreOn + " displayActive=" + displayActive + " gameover=" + _gameover + " displayEffect=" + displayEffect);
                             EffectBlink(name: hddisplaySystem[i].name, scoreon: hddisplaySystem[i].scoreOn, displaytextcard: hddisplaySystem[i].displayTextCard, displayname: hddisplaySystem[i].displayName, scoreLive: _scoreLive);
                             break;
                         default:

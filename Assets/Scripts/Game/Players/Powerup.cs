@@ -159,7 +159,7 @@ public class Powerup : MonoBehaviour
                     case 2:
                         if (_player.ShieldControl())
                         {
-                            if (_player.ShieldHit == 0) //_randomHold > -2 && _randomHold < 2
+                            if (_player.ShieldHit == 0)
                             {
                                 _player.ShieldControl(shieldactive:false, resetShields:true);
                             }
@@ -167,7 +167,7 @@ public class Powerup : MonoBehaviour
                         else if (!_player.ShieldControl())
                         {
                             float _randomHold = Random.Range(_powerupTypes[_powerNumber].start, _powerupTypes[_powerNumber].end);
-                            if (_randomHold > -4 && _randomHold < 4) // _randomHold > -4 && _randomHold < 4
+                            if (_randomHold > -4 && _randomHold < 4)
                             {
                                 _powerupTypes[_powerNumber].pausePower = false;
                                 _player.ShieldReset();

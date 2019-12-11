@@ -69,21 +69,18 @@ public class SystemManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.LogError("High Score Get: " + _gameShare[0].highScore);
     }
     public float HighScoreIs
     {
         get
         {
             return _gameShare[0].highScore;
-            //Debug.LogError("High Score Get: " + _gameShare[0].highScore);
         }
         set
         {
             if (value > _gameShare[0].highScore)
             {
                 _gameShare[0].highScore = value;
-                //Debug.LogError("High Score Set: " + _gameShare[0].highScore);
             }
         }
     }

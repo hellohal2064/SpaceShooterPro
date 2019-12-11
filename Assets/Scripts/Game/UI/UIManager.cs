@@ -192,7 +192,6 @@ public class UIManager : MonoBehaviour
     }
     public void GamePause()
     {
-        Debug.LogError("GamePause");
         WriteHighScore(_scoreLive);
         _continueButton.SetActive(true);
         ChangeTextHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "GameOver", newText: "Game Paused");

@@ -75,7 +75,6 @@ public class SpawnManager : MonoBehaviour
     {
         _uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
         _uiManager.GameOverCheck = false;
-        //DontDestroyOnLoad(GameObject.Find("SystemManager"));
         // Create Player
         coroutineSpawnPlayer = SpawnPlayer();
         StartCoroutine(coroutineSpawnPlayer);
@@ -94,7 +93,6 @@ public class SpawnManager : MonoBehaviour
     {
         while (spawnPlayerLoop)
         {
-            //Debug.LogError("SpawnPlayer L2: "+ _uiManager.GameOverCheck);
             if (GameObject.FindGameObjectWithTag("Player") == null && !_uiManager.GameOverCheck)
             {
                 _uiManager.GameStart();
