@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviour
     private GameObject GamePanel = null;
     [SerializeField]
     private GameObject _continueButton = null;
+
     //Not in Unity
     private bool _gameover;
     private float _scoreLive;
@@ -185,13 +186,13 @@ public class UIManager : MonoBehaviour
     }
     public void GamePause()
     {
-        Time.timeScale = 0;
         _continueButton.SetActive(true);
         ChangeTextHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "GameOver", newText: "Game Paused");
         UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "GameOver", scoreOn: false, displayActive: true, displayEffect: "Blink");
         ChangeTextHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "NewGame", newText: "Game Coded by Sean Li hellohal2064@gmail.com");
         UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "NewGame", scoreOn: false, displayActive: true, displayEffect: "PlainText");
         GamePanel.SetActive(true);
+        Time.timeScale = 0;
     }
     public void GameContinue()
     {

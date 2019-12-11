@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     //Coroutines
-    private bool gameEscapeLoop = true;
-    private IEnumerator coroutineGameEscape;
     private bool GamePlayLoop = true;
     private IEnumerator coroutineGamePlay;
     //Not In Unity
@@ -16,24 +14,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         _uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
-        // Create GameEscape Loop
-        coroutineGameEscape = GameEscape();
-        StartCoroutine(coroutineGameEscape);
         // Create Game Play Loop
         coroutineGamePlay = GamePlay();
         StartCoroutine(coroutineGamePlay);
-    }
-    IEnumerator GameEscape()
-    {
-        while (gameEscapeLoop)
-        {
-            while (Input.GetKeyDown(KeyCode.Escape))
-            {
-                //Application.Quit();
-                yield return null;
-            }
-            yield return null;
-        }
     }
     IEnumerator GamePlay()
     {
