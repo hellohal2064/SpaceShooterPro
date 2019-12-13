@@ -31,6 +31,7 @@ public class MainManager : MonoBehaviour
         new HDisplaySystem {name = "Credits", displayName = "Game Coded by Sean Li hellohal2064@gmail.com", displayActive = false, scoreOn = false, effect = "Blink"},
     };
     //Not in Unity
+    private SystemManager _systemManager;
     private bool _gameover;
     private float _scoreLive;
     private IEnumerator coroutineHDDisplay;
@@ -42,6 +43,7 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _systemManager = GameObject.FindGameObjectWithTag("SystemManager").GetComponent<SystemManager>();
         coroutineHDDisplay = BlinkEffect();
         UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "Credits", scoreOn: false, displayActive: true, displayEffect: "Blink");
     }
@@ -141,10 +143,12 @@ public class MainManager : MonoBehaviour
     }
     public void Settings()
     {
-
+        _systemManager.ReadPrefs();
+        SceneManager.LoadScene(3);
     }
     public void Quit()
     {
+        _systemManager.WritePrefs();
         Application.Quit();
     }
 }

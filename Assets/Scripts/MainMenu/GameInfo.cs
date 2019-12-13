@@ -7,6 +7,7 @@ public class GameInfo : MonoBehaviour
 {
     public void MainMenu()
     {
+        GameObject.FindGameObjectWithTag("SystemManager").GetComponent<SystemManager>().WritePrefs();
         SceneManager.LoadScene(0);
     }
 }

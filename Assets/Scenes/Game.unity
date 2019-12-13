@@ -227,6 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47dfe51b8c84cc94ea8eb5de47f8f9c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMixer: {fileID: 24100000, guid: 45afa027c0f31d34fb54b64f63ad1152, type: 2}
 --- !u!4 &149165133
 Transform:
   m_ObjectHideFlags: 0
@@ -465,7 +466,7 @@ GameObject:
   - component: {fileID: 288544499}
   m_Layer: 0
   m_Name: SystemManager
-  m_TagString: Untagged
+  m_TagString: SystemManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -485,10 +486,9 @@ MonoBehaviour:
   _maxLevel: 6
   _gameShare:
   - name: SharedInfo
-    gameVolume: 1
+    gameVolume: 0.75
     highScore: 0
-    scoreLive: 0
-    highLevel: 1
+    highLevel: 0
   _levelRequirments:
   - name: Level1
     levelId: 1
@@ -498,15 +498,15 @@ MonoBehaviour:
     spawnAsteroidWaitTime: 25
   - name: Level2
     levelId: 2
-    scoreReguired: 200
-    spawnEnemyWaitTime: 10
+    scoreReguired: 100
+    spawnEnemyWaitTime: 7
     spawnAsteroid: 0
     spawnAsteroidWaitTime: 25
-  - name: Level2
-    levelId: 2
-    scoreReguired: 0
-    spawnEnemyWaitTime: 10
-    spawnAsteroid: 0
+  - name: Level3
+    levelId: 3
+    scoreReguired: 200
+    spawnEnemyWaitTime: 5
+    spawnAsteroid: 1
     spawnAsteroidWaitTime: 25
 --- !u!4 &288544500
 Transform:
@@ -916,7 +916,8 @@ AudioSource:
   m_GameObject: {fileID: 680902385}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 45afa027c0f31d34fb54b64f63ad1152,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 5b17a0088dcdf924fa92da5af1e1be07, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -3597,7 +3598,6 @@ MonoBehaviour:
     displayName: Game Coded by Sean Li hellohal2064@gmail.com
     scoreOn: 0
     effect: PlainText
-  _SystemManager: {fileID: 288544498}
   _GamePanel: {fileID: 1361468597}
   _continueButton: {fileID: 1791447295}
 --- !u!4 &2072077593

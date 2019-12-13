@@ -17,6 +17,7 @@ TagManager:
   - ShieldBar
   - Asteroid
   - GamePanel
+  - SystemManager
   layers:
   - Default
   - TransparentFX

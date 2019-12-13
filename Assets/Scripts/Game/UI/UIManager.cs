@@ -38,6 +38,7 @@ public class UIManager : MonoBehaviour
     private GameObject _continueButton = null;
 
     //Not in Unity
+    private SystemManager _systemManager;
     private SystemManager hsControl;
     private bool _gameover;
     private float _scoreLive;
@@ -53,6 +54,7 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _systemManager = GameObject.FindGameObjectWithTag("SystemManager").GetComponent<SystemManager>();
         GameStart();
     }
     // Update is called once per frame
@@ -153,6 +155,7 @@ public class UIManager : MonoBehaviour
     }
     public void GameIsOver()
     {
+        _systemManager.WritePrefs();
         WriteHighScore(_scoreLive);
         _GamePanel.SetActive(true);
         _continueButton.SetActive(false);

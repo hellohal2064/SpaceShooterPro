@@ -120,6 +120,74 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &7821590
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7821592}
+  - component: {fileID: 7821591}
+  m_Layer: 0
+  m_Name: SystemManager
+  m_TagString: SystemManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &7821591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7821590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d82b7be4356f7e34c9842516b61584c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxLevel: 6
+  _gameShare:
+  - name: SharedInfo
+    gameVolume: 0.75
+    highScore: 0
+    highLevel: 0
+  _levelRequirments:
+  - name: Level1
+    levelId: 1
+    scoreReguired: 0
+    spawnEnemyWaitTime: 10
+    spawnAsteroid: 0
+    spawnAsteroidWaitTime: 25
+  - name: Level2
+    levelId: 2
+    scoreReguired: 100
+    spawnEnemyWaitTime: 7
+    spawnAsteroid: 0
+    spawnAsteroidWaitTime: 25
+  - name: Level3
+    levelId: 3
+    scoreReguired: 200
+    spawnEnemyWaitTime: 5
+    spawnAsteroid: 1
+    spawnAsteroidWaitTime: 25
+--- !u!4 &7821592
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7821590}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -60, y: 85, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &100318015
 GameObject:
   m_ObjectHideFlags: 0

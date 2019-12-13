@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SystemManager : MonoBehaviour
 {
@@ -40,7 +41,7 @@ public class SystemManager : MonoBehaviour
     [SerializeField]
     private List<GameShare> _gameShare = new List<GameShare>
     {
-        new GameShare {name = "SharedInfo", gameVolume =1}
+        new GameShare {name = "SharedInfo", gameVolume =.8f}
     };
     [SerializeField]
     private List<LevelRequirments> _levelRequirments = new List<LevelRequirments>
@@ -70,6 +71,16 @@ public class SystemManager : MonoBehaviour
     void Update()
     {
     }
+    public void WritePrefs()
+    {
+        PlayerPrefs.SetFloat("highScore", _gameShare[0].highScore);
+        PlayerPrefs.SetFloat("gameVolume", _gameShare[0].gameVolume);
+    }
+    public void ReadPrefs()
+    {
+        _gameShare[0].highScore = PlayerPrefs.GetFloat("highScore", 0f);
+        _gameShare[0].gameVolume = PlayerPrefs.GetFloat("gameVolume", .75f);
+    }
     public float HighScoreIs
     {
         get
@@ -81,6 +92,28 @@ public class SystemManager : MonoBehaviour
             if (value > _gameShare[0].highScore)
             {
                 _gameShare[0].highScore = value;
+            }
+        }
+    }
+    public float GameVolume
+    {
+        get
+        {
+            return _gameShare[0].gameVolume;
+        }
+        set
+        {
+            if (value >= 1)
+            {
+                _gameShare[0].gameVolume = 1;
+            }
+            else if (value <= 0.0001)
+            {
+                _gameShare[0].gameVolume = 0.0001f;
+            }
+            else
+            {
+                _gameShare[0].gameVolume = value;
             }
         }
     }
