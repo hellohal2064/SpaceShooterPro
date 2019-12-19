@@ -8,6 +8,7 @@ public class GameInfo : MonoBehaviour
     public void MainMenu()
     {
         GameObject.FindGameObjectWithTag("SystemManager").GetComponent<SystemManager>().WritePrefs();
+        GameObject.FindGameObjectWithTag("ResetHS").GetComponent<ToggleHS>().ClearToggle();
         SceneManager.LoadScene(0);
     }
 }

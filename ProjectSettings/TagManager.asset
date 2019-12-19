@@ -18,6 +18,7 @@ TagManager:
   - Asteroid
   - GamePanel
   - SystemManager
+  - ResetHS
   layers:
   - Default
   - TransparentFX

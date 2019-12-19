@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour
     }
     void SetVolume(float volume)
     {
-        float test = Mathf.Log10(volume) * 20;
         mainMixer.SetFloat("MusicVol", Mathf.Log10(volume) * 20);
     }
     IEnumerator GamePlay()

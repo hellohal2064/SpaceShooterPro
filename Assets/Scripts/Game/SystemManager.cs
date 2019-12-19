@@ -81,6 +81,11 @@ public class SystemManager : MonoBehaviour
         _gameShare[0].highScore = PlayerPrefs.GetFloat("highScore", 0f);
         _gameShare[0].gameVolume = PlayerPrefs.GetFloat("gameVolume", .75f);
     }
+    public void ResetHS()
+    {
+        PlayerPrefs.SetFloat("highScore", 0);
+        _gameShare[0].highScore = 0;
+    }
     public float HighScoreIs
     {
         get
