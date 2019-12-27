@@ -50,7 +50,6 @@ public class UIManager : MonoBehaviour
     Color endColor = new Color32(188, 0, 0, 255);
     Color baseColor = new Color32(255,255,255,255);
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -191,10 +190,12 @@ public class UIManager : MonoBehaviour
     public void GameRestart()
     {
         Time.timeScale = 1;
+        _systemManager.WritePrefs();
         SceneManager.LoadScene(1);
     }
     public void GamePause()
     {
+        _systemManager.WritePrefs();
         WriteHighScore(_scoreLive);
         _continueButton.SetActive(true);
         ChangeTextHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "GameOver", newText: "Game Paused");
@@ -208,12 +209,14 @@ public class UIManager : MonoBehaviour
     public void GameContinue()
     {
         Time.timeScale = 1;
+        _systemManager.WritePrefs();
         _GamePanel.SetActive(false);
     }
     public void GameMainMenu()
     {
-        WriteHighScore(_scoreLive);
         Time.timeScale = 1;
+        _systemManager.WritePrefs();
+        WriteHighScore(_scoreLive);
         SceneManager.LoadScene(0);
     }
     public bool GameOverCheck
