@@ -154,10 +154,12 @@ public class UIManager : MonoBehaviour
     }
     public void GameIsOver()
     {
+        Button gpButton = _continueButton.GetComponent<Button>();
         _systemManager.WritePrefs();
         WriteHighScore(_scoreLive);
         _GamePanel.SetActive(true);
-        _continueButton.SetActive(false);
+        gpButton.interactable = false;
+        gpButton.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
         ChangeTextHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "GameOver", newText: "Game Over");
         StopCoroutine("BlinkEffect");
         UpdateHDSystem(hddisplaySystem: _hDDisplaySystem, hdSystemName: "HighScore", scoreOn: true, displayActive: true, displayEffect: "PlainText", liveScore: ReadHighScore());
